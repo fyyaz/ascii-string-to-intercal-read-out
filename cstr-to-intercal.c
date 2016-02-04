@@ -2,7 +2,8 @@
 #include <assert.h>
 #include <string.h>
 
-static inline char b_revc(unsigned char c)
+//bitwise reverse
+static inline char b_rev(unsigned char c)
 {
 	unsigned char r = 0;
 	for (unsigned int i = 0; i < 8; i++) {
@@ -11,13 +12,20 @@ static inline char b_revc(unsigned char c)
 	return r;
 }
 
-static inline char b_rev(unsigned char c)
-{
-	unsigned char r = b_revc(c);
-	assert((unsigned char)b_revc(r) == (unsigned char)c);
-	return r;
-}
-
+/*
+ * in this function:
+ * output_string[i] = reverse(input_string[i-1]) - reverse(input_string[i])
+ * input_string[-1] == 0
+ *
+ * in the INTERCAL READ OUT statement:
+ * output = reverse(reverse(last_output) - input)
+ * where last_output is 0 if there has not been an output yet
+ * this is simply swapped to
+ * reverse(output) = reverse(last_output) - input
+ * which can be rearranged as
+ * input = reverse(last_output) - reverse(output)
+ * which is equivalent to this function's behavior
+ */
 int main(int argc, char **argv)
 {
 	for (int i = 1; i < argc; i++) {
@@ -28,8 +36,7 @@ int main(int argc, char **argv)
 		s[len + 1] = 0;
 		puts(s);
 		printf("\nDO ,1 <- #%i\n",len + 2);
-		unsigned char last = 0;
-		for (unsigned int j = 0; j < len + 2; j++) {
+		for (unsigned int j = 0, last = 0; j < len + 2; j++) {
 			unsigned char ri = (unsigned char)b_rev(s[j]);
 			unsigned char rl = (unsigned char)b_rev(last);
 			unsigned char c = (unsigned char)rl - (unsigned char)ri;
