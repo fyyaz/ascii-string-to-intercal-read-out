@@ -1,4 +1,4 @@
-# ascii-string-to-intercal-read-out
+# ascii string to intercal read out
 converts an ascii string to the equivalent INTERCAL statements that will read that out
 
 I was too lazy to do the conversion by hand. 
